@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.username }}'s Subscription</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Your Subscription</h1>
+
+        {% if user.is_authenticated %}
+            <p class="text-sm text-gray-600 mb-4 text-center break-all">
+                User: <span class="font-mono bg-gray-100 px-2 py-1 rounded">{{ user.username }}</span>
+            </p>
+        {% endif %}
+
+        <div class="mb-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <h2 class="text-xl font-semibold text-blue-800 mb-3">Current Plan Details</h2>
+            <div class="space-y-2 text-gray-700">
+                <p><strong>Plan:</strong> <span class="font-medium text-blue-700">{{ subscription.plan }}</span></p>
+                <p><strong>Start Date:</strong> {{ subscription.start_date|date:"M d, Y" }}</p>
+                <p><strong>End Date:</strong> {% if subscription.end_date %}{{ subscription.end_date|date:"M d, Y" }}{% else %}N/A{% endif %}</p>
+                <p><strong>Active:</strong>
+                    <span class="font-medium {% if subscription.is_active %}text-green-600{% else %}text-red-600{% endif %}">
+                        {% if subscription.is_active %}Yes{% else %}No{% endif %}
+                    </span>
+                </p>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <a href="{% url 'update_subscription' %}"
+               class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                Update Subscription
+            </a>
+        </div>
+    </div>
+</body>
+</html>

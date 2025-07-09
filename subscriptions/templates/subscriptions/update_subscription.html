@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Subscription</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Update Your Subscription</h1>
+
+        <div class="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <h2 class="text-xl font-semibold text-blue-800 mb-3">Current Plan: {{ subscription.plan }}</h2>
+            <p class="text-gray-700">Change your plan or update its status below.</p>
+        </div>
+
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            <div>
+                <label for="{{ form.plan.id_for_label }}" class="block text-gray-700 text-sm font-medium mb-2">Subscription Plan</label>
+                {{ form.plan }}
+                {% if form.plan.errors %}
+                    <p class="text-red-500 text-xs italic mt-1">{{ form.plan.errors }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.end_date.id_for_label }}" class="block text-gray-700 text-sm font-medium mb-2">End Date</label>
+                {{ form.end_date }}
+                {% if form.end_date.errors %}
+                    <p class="text-red-500 text-xs italic mt-1">{{ form.end_date.errors }}</p>
+                {% endif %}
+            </div>
+
+            <div class="flex items-center">
+                {{ form.is_active }}
+                <label for="{{ form.is_active.id_for_label }}" class="ml-2 block text-gray-700 text-sm font-medium">Is Active?</label>
+                {% if form.is_active.errors %}
+                    <p class="text-red-500 text-xs italic mt-1">{{ form.is_active.errors }}</p>
+                {% endif %}
+            </div>
+
+            <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                Save Changes
+            </button>
+        </form>
+
+        <div class="text-center mt-6">
+            <a href="{% url 'subscription_detail' %}"
+               class="inline-block text-blue-600 hover:text-blue-800 font-medium transition duration-300 ease-in-out">
+                Back to Subscription Details
+            </a>
+        </div>
+    </div>
+</body>
+</html>
